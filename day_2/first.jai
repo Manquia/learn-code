@@ -9,9 +9,9 @@
 // example time value: 12534 = 3 hours, 28 minute, 54 seconds
 //
 // Will print at compile-time if you want to check any values
-// #run print("hr:%\n",  get_hour(12534));
-// #run print("min:%\n", get_minute(12534));
-// #run print("sec:%\n", get_second(12534));
+//#run print("hr:%\n",  get_hour(12534));
+//#run print("min:%\n", get_minute(12534));
+//#run print("sec:%\n", get_second(12534));
 //
 SECOND :: 1;
 MINUTE :: SECOND * 60;
@@ -41,7 +41,7 @@ get_second :: (time: int) -> int
     return time % 60;
 }
 
-make_time :: (hr: int = 0, min: int = 0, sec: int = 0) -> int #expand
+make_time :: (hr: int = 0, min: int = 0, sec: int = 0) -> int
 {
     return hr * HOUR + min * MINUTE + sec * SECOND;
 }
@@ -50,18 +50,55 @@ GuestInfo :: struct
 {
     name: string;
 
+
     check_in_time: int;
     check_out_time: int;
 }
 
-// 
-// @TODO
 //
+// >           Greater than operator
+// <           Less than operator
+// >=          Greater than or equal operator
+// <=          Less than or equal operator
+// &&          Logical AND operator
+// Inclusive way
 can_guest_check_in :: (info: GuestInfo) -> bool
 {
+    now :int = get_current_time();
 
-    return false;
+    if now >= info.check_in_time  &&
+       now <= info.check_out_time
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
+
+// Exclusive way
+/*
+can_guest_check_in :: (info: GuestInfo) -> bool
+{
+    now :int = get_current_time();
+
+    if now < info.check_in_time // too early
+    {
+        return false;
+    }
+
+    if now > info.check_out_time // too late
+    {
+        return false;
+    }
+
+    // If we get to here in the function we are all good
+    // and allowed to checkin
+    return true;
+}
+*/
+
 
 
 

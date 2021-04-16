@@ -4,6 +4,7 @@
 guestName: string = "Micah";
 guestGender: bool = true;
 guestTimeSinceLastMeal: float = 1.23453;
+live_left: int = 35545;
 
 main :: () 
 {
