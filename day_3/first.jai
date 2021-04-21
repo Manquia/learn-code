@@ -22,13 +22,42 @@
 
 main :: ()
 {
-    value: int;
+    seed_value: int;
     is_valid: bool;
-    console_input := get_line();
 
-    value, is_valid, console_input = to_integer(console_input);
+    // Prompt for seed number
+    print("Please enter the seed number:");
+    console_input :string = get_line();
+    print("\n");
 
-    if !is_valid then print("Invalid input!\n");
+    // was input valid?
+    seed_value, is_valid = to_integer(console_input);
+    if !is_valid then print("Provided seed value was not valid.\n");
+
+
+    while true
+    {
+        print("GIVE ME YOUR BEST SHOT! WHAT IS THE ANSWER!!!\n");
+        console_input = get_line();
+
+        // was input valid?
+        guess_value: int;
+        guess_value, is_valid = to_integer(console_input);
+        if !is_valid then print("Your guess was crude!\n");
+
+        // Correct?
+        if guess_value == 420
+        {
+            print("Congradulations, you're a winner\n");
+            break;
+        }
+
+        // Incorrect guess. Barate the user!
+        if guess_value != 420
+        {
+            print("You're bad at this game!\n");
+        }
+    }
 
 
 }
