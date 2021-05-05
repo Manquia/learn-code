@@ -21,41 +21,129 @@
 //   - Prompt for quantity of purchase                   | repeat steps if money left
 //   - Output if there is enough money and how much left-/
 
-
-
-prompt_for_integer :: (message: string) -> int
+my_min :: (v0: int, v1: int) -> return_value: int
 {
-    // Prompt for seed number
-    while true
+    if v0 < v1
     {
-        print(message);
-        console_input :string = get_line();
-
-        // was input valid?
-        value: int;
-        is_valid: bool;
-        value, is_valid = to_integer(console_input);
-
-        if is_valid
-        {
-            return value; // Success, Got a value from the function
-        }
-        else
-        {
-            print("Invalid input, Try again.\n");
-        }
+        return v0;
     }
+    return v1;
+}
+
+my_max :: (v0: int, v1: int) -> return_value: int
+{
+    if v0 > v1
+    {
+        return v0;
+    }
+    return v1;
+}
+
+// my_clamp is a function with 3 input integers.
+// The input variable names are "value" "min", "max".
+// and return 1 integer.
+// 
+// my_clamp(30,   3, 20)  // returns 20
+// my_clamp(-4,   5, 10)  // returns 5
+// my_clamp(26, -15, 44)  // returns 26
+//
+
+my_clamp :: (v: int, min: int, max: int) -> int
+{
+    if v < min
+    {
+        return min;
+    }
+    if v > max
+    {
+        return max;
+    }
+    return v;
+}
+
+
+mario_world_simulate :: ()
+{
+
+
+  print("It’s a me-aaa. Mario!\n");
+}
+
+
+foobar :: ()
+{
+
+  print("DND for life!\n");
 }
 
 
 main :: ()
 {
-    accumulator: int = 0;
+    is_ham :bool = (10 - 10) > -1;
+
+    if is_ham
+    {
+        print("Yes Ham!");
+    }
+    else
+    {
+        print("No Ham");
+    }
+}
+
+// #3
+/*
+main :: ()
+{
+    num0:int = 1;
+    num1:int = 2;
+    num2:int = 3; 
+    num3:int = 4;
+    num4:int = 5;
+    num5:int = 6;
+
+    min_res0:int = my_min(num0, num1);
+    min_res1:int = my_min(num1, num2);
+    min_res2:int = my_min(num2, num3);
+    min_res3:int = my_min(num3, num4);
+    min_res4:int = my_min(num4, num5);
+    
+    max_res0:int = my_max(num0, num1);
+    max_res1:int = my_max(num1, num2);
+    max_res2:int = my_max(num2, num3);
+    max_res3:int = my_max(num3, num4);
+    max_res4:int = my_max(num4, num5);
+
+
+    print("%\n", min_res0);
+    print("%\n", min_res1);
+    print("%\n", min_res2);
+    print("%\n", min_res3);
+    print("%\n", min_res4);
+    
+    print("%\n", max_res0);
+    print("%\n", max_res1);
+    print("%\n", max_res2);
+    print("%\n", max_res3);
+    print("%\n", max_res4);
+
+
+
+
+}
+*/
+
+// #2
+/*
+main :: ()
+{
+    accumulator: float = 0;
     // Prompt for seed number
     while true
     {
         print("Please Input a value: ");
         console_input :string = get_line();
+        print("\n");
 
         if console_input.count == 0
         {
@@ -63,14 +151,14 @@ main :: ()
         }
 
         // was input valid?
-        value: int;
+        value: float;
         was_integer_readable: bool;
-        value, was_integer_readable = to_integer(console_input);
+        value, was_integer_readable = string_to_float(console_input);
 
         if was_integer_readable
         {
             accumulator = accumulator + value;
-            print("%1", accumulator);
+            print("%1\n", accumulator);
         }
 
         if !was_integer_readable
@@ -79,10 +167,7 @@ main :: ()
         }
     }
 }
-
-
-
-
+*/
 
 // #1
 /*
