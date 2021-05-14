@@ -1,4 +1,6 @@
 #import "Basic";
+#import "Print_Color";
+#import "Random";
 /*
 This is a solitary game, or one with just one player, and the
 play of a typical game goes like this:
@@ -67,7 +69,7 @@ y \_x 0  1  2  3                | 0  1  2  3   4  5  6  7   8  9  10 11  12 13 1
 [0][0][0][1]
 
 */
-neighbors_alive :: (x: int, y: int) -> int
+neighbors_alive :: (board: *[WIDTH * HEIGHT]bool, x: int, y: int) -> int
 {
     index: int = x_y_to_index(x, y);
 
@@ -89,14 +91,14 @@ neighbors_alive :: (x: int, y: int) -> int
     
     number_alive: int = 0;
 
-    if left_valid  && g_board[left_index]                      { number_alive += 1; }
-    if right_valid && g_board[right_index]                     { number_alive += 1; }
-    if up_valid    && g_board[up_index]                        { number_alive += 1; }
-    if down_valid  && g_board[down_index]                      { number_alive += 1; }
-    if up_valid    && left_valid  && g_board[up_left_index]    { number_alive += 1; }
-    if up_valid    && right_valid && g_board[up_right_index]   { number_alive += 1; }
-    if down_valid  && left_valid  && g_board[down_left_index]  { number_alive += 1; }
-    if down_valid  && right_valid && g_board[down_right_index] { number_alive += 1; }
+    if left_valid  && (<< board)[left_index]                      { number_alive += 1; }
+    if right_valid && (<< board)[right_index]                     { number_alive += 1; }
+    if up_valid    && (<< board)[up_index]                        { number_alive += 1; }
+    if down_valid  && (<< board)[down_index]                      { number_alive += 1; }
+    if up_valid    && left_valid  && (<< board)[up_left_index]    { number_alive += 1; }
+    if up_valid    && right_valid && (<< board)[up_right_index]   { number_alive += 1; }
+    if down_valid  && left_valid  && (<< board)[down_left_index]  { number_alive += 1; }
+    if down_valid  && right_valid && (<< board)[down_right_index] { number_alive += 1; }
     
     return number_alive;
 }
@@ -110,14 +112,14 @@ print_board :: (board: []bool, generation: int)
         // print cell
         if cell
         {
-            print("[1]");
+            print_color("[1]", color = FOREGROUND_BLUE);
         }
         else // dead cell
         {
-            print("[0]");
+            print_color("[0]", color = FOREGROUND_RED);
         }
 
-        if cell_index % 4 == 3  //@TODO
+        if cell_index % WIDTH == (WIDTH - 1)
         {
             print("\n");
         }
@@ -126,21 +128,37 @@ print_board :: (board: []bool, generation: int)
 
 
 
-WIDTH  :int: 4;
-HEIGHT :int: 4;
+WIDTH  :int: 50;
+HEIGHT :int: 50;
 
 g_board:  [WIDTH * HEIGHT]bool;
 g_board2: [WIDTH * HEIGHT]bool;
 
 main :: ()
 {
-    g_board = bool.[
-        false, true , false, false, 
-        false, true , false, false, 
-        false, true , false, false, 
-        false, false, false, false, 
-    ];
+    // glider
+    if false
+    {
+        g_board[x_y_to_index(3,3)] = true;
 
+        g_board[x_y_to_index(4,4)] = true;
+        g_board[x_y_to_index(5,4)] = true;
+
+        g_board[x_y_to_index(3,5)] = true;
+        g_board[x_y_to_index(4,5)] = true;
+        
+        //  X__
+        //  _XX
+        //  XX_
+    }
+
+    // Initialize to random noise!
+    for * cell, cell_index :g_board
+    {
+        alive :bool = random_get_zero_to_one() >= 0.5;
+        << cell = alive;
+    }
+    
     print_board(g_board, 0);
 
     pointer_to_current: *[WIDTH * HEIGHT]bool = *g_board;
@@ -158,6 +176,8 @@ main :: ()
         temp: *[WIDTH * HEIGHT]bool = pointer_to_next;
         pointer_to_next = pointer_to_current;
         pointer_to_current = temp;
+
+        sleep_milliseconds(350);
     }
 
 }
@@ -167,7 +187,10 @@ execute_simulation :: (current: *[WIDTH * HEIGHT]bool, next: *[WIDTH * HEIGHT]bo
     for cell, cell_index : << current
     {
         x, y :int = index_to_x_y(cell_index);
-        alive := neighbors_alive(x, y);
+        alive := neighbors_alive(current, x, y);
+        
+        // erase old state of previous generation by making them all dead.
+        (<< next)[cell_index] = false;
 
         // Births
         if cell == false
@@ -178,12 +201,28 @@ execute_simulation :: (current: *[WIDTH * HEIGHT]bool, next: *[WIDTH * HEIGHT]bo
             }
         }
 
+        // Death by isolation
         if cell == true
         {
-            // AND && 
-            // OR  ||
+            if alive <= 1
+            {
+                (<< next)[cell_index] = false;
+            }
+        }
+        
+        // Death by overcrowding
+        if cell == true
+        {
+            if alive >= 4
+            {
+                (<< next)[cell_index] = false;
+            }
+        }
 
-            if alive == 2 || alive == 3
+        // Survival
+        if cell == true
+        {
+            if (alive == 2) || (alive == 3)
             {
                 (<< next)[cell_index] = true;
             }
