@@ -3,6 +3,8 @@
 
 #load "raylib-jai/raylib.jai";
 #load "background.jai";
+#load "player.jai";
+#load "bullet.jai";
 
 // Project 1: Space Saga
 // 
@@ -26,7 +28,7 @@
 //     ai/behavior, art/texture, hp, weapons
 //   elite ship (1)
 //     ai/behavior, art/texture, hp, weapons
-//   background 
+//   background (done)
 //     art/texture,                    LATER: star particles?, paralaxed background?
 //   
 
@@ -38,15 +40,19 @@ main :: ()
     defer CloseWindow();
 
     SetTargetFPS(60);
+    init_bullets();
+    init_player();
 
     while !WindowShouldClose()     // Detect window close button or ESC key
     {
         BeginDrawing();
         defer EndDrawing();
 
-        ClearBackground(RAYWHITE);
+        ClearBackground(BLACK);
 
         draw_background();
+        simulate_bullets();
+        simulate_player();
     }
 }
 
