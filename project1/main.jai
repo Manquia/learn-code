@@ -1,10 +1,14 @@
 #import "Basic";
 
 
-#load "raylib-jai/raylib.jai";
+#import "raylib-jai";
+#load "raylib-jai/raymath.jai";
+Math :: #import "Math";
+
 #load "background.jai";
 #load "player.jai";
 #load "bullet.jai";
+#load "sandbox.jai";
 
 // Project 1: Space Saga
 // 
@@ -53,6 +57,9 @@ main :: ()
         draw_background();
         simulate_bullets();
         simulate_player();
+
+
+        test_cirle_to_circle();
     }
 }
 
