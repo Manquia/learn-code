@@ -32,3 +32,20 @@ test_cirle_to_circle :: ()
     DrawCircleSectorLines(c1.pos, c1.radius, 0, 360, 32, LIME);
 }
 
+overlapping_cirles :: (p0: Vector2, r0: float, p1: Vector2, r1: float) -> bool
+{
+    vec := p1 - p0;
+    
+    length_sqrd : float = (vec.x * vec.x) + (vec.y * vec.y);
+    //length := Math.sqrt(length_sqrd);
+
+    radius_sum := r0 + r1;
+    radius_sum_sqrd := radius_sum * radius_sum;
+
+    if length_sqrd < radius_sum_sqrd // circles are overlapping
+    {
+        return true;
+    }
+    return false;
+}
+

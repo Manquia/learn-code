@@ -39,6 +39,46 @@ spawn_player_bullet :: (position: Vector2)
 
 simulate_bullets :: ()
 {
+    physics_bullets();
+    draw_bullets();
+}
+
+physics_bullets :: ()
+{
+    BULLET_DMG :: 75; // @TODO add to Bullet structure
+
+    for *bullet :bullet_instances
+    {
+        end_bullet: bool;
+
+        if bullet.team == Team.Player
+        {
+            for *et :enemy_turret_instances
+            {
+                if overlapping_cirles(bullet.pos, bullet.radius, et.pos, et.radius)
+                {
+                    et.health -= BULLET_DMG;
+                    end_bullet = true;
+
+                    if et.health <= 0
+                    {
+                        remove; // remove et
+                    }
+                    break;
+                }
+            }
+        }
+
+
+        if end_bullet
+        {
+            remove; // remove bullet
+        }
+    }
+}
+
+draw_bullets :: ()
+{
     time := GetTime();
     dt := GetFrameTime();
     speed := dt * 250.0;
@@ -62,18 +102,21 @@ simulate_bullets :: ()
         frame_period : float64 = 1.0/15.0;
         frame_index := round_to_nearest_int(bullet_time / frame_period) % frame_count;
 
+        if bullet_time > Bullet.LIFESPAN
+        {
+            remove;
+            continue;
+        }
+
         pos: Vector2;
         pos.x = bullet.pos.x + texture_offset.x;
         pos.y = bullet.pos.y + texture_offset.y;
         DrawTextureEx(bullet_frames[frame_index], pos, 0, scale, WHITE);
+
+        
+        // DEBUG
+        DrawCircleSectorLines(bullet.pos, bullet.radius, 0, 360, 32, WHITE);
     }
-
-
-    // for *bullet :bullet_instances
-    // {
-    //     remove; // removes bullet from the bullet_instances array
-    //     continue;
-    // }
 }
 
 

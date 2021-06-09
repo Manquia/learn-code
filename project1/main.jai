@@ -8,7 +8,9 @@ Math :: #import "Math";
 #load "background.jai";
 #load "player.jai";
 #load "bullet.jai";
+#load "enemy_turret.jai";
 #load "sandbox.jai";
+
 
 // Project 1: Space Saga
 // 
@@ -46,6 +48,12 @@ main :: ()
     SetTargetFPS(60);
     init_bullets();
     init_player();
+    init_enemy_turret();
+
+    // spawn 2 for testing
+    spawn_enemy_turret(Vector2.{200, 100});
+    spawn_enemy_turret(Vector2.{300, 100});
+    spawn_enemy_turret(Vector2.{400, 100});
 
     while !WindowShouldClose()     // Detect window close button or ESC key
     {
@@ -57,6 +65,7 @@ main :: ()
         draw_background();
         simulate_bullets();
         simulate_player();
+        simulate_enemy_turrets();
 
 
         test_cirle_to_circle();
