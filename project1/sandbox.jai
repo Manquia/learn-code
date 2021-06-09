@@ -22,15 +22,10 @@ test_cirle_to_circle :: ()
     radius_sum := c0.radius + c1.radius;
     radius_sum_sqrd := radius_sum * radius_sum;
 
-    if length_sqrd > radius_sum_sqrd
+    if length_sqrd < radius_sum_sqrd // circles are overlapping
     {
          print("circles colliding!\n");
     }
-
-    // if radius_sum > length // circles are overlapping
-    // {
-    //     print("circles colliding!\n");
-    // }
 
     DrawLineV(c0.pos, c1.pos, GRAY);
     DrawCircleSectorLines(c0.pos, c0.radius, 0, 360, 32, VIOLET);
