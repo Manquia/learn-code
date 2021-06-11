@@ -8,6 +8,9 @@ init_player :: ()
     player.pos.x = width  * 0.5;
     player.pos.y = height * 0.8;
 
+    player.radius = 15;
+    player.health = 100;
+
     player.texture = LoadTexture("resources/player_texture.png");
 }
 
@@ -42,16 +45,18 @@ simulate_player :: ()
         pos.y = player.pos.y - (player.texture.height * 0.5 * scale);
      
         DrawTextureEx(player.texture, pos, 0, scale, WHITE);
+        
+        // DEBUG
+        DrawCircleSectorLines(player.pos, player.radius, 0, 360, 32, WHITE);
     }
 }
 
 
-
-#scope_file
-
 Player :: struct
 {
     pos: Vector2;
+    radius: float;
+    health: int;
 
     texture: Texture2D;
 }

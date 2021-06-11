@@ -19,6 +19,7 @@ Bullet :: struct
     radius: float32; // @TODO
     birth:  float64;
     team:   Team;
+    damage: int;  // The ammount of damage done when colliding with a different team.
 
 
     LIFESPAN :float64: 10.0;
@@ -33,6 +34,20 @@ spawn_player_bullet :: (position: Vector2)
     b.radius = 10;
     b.birth = GetTime();
     b.team = Team.Player;
+    b.damage = 75;
+
+    array_add(*bullet_instances, b);
+}
+
+spawn_enemey_turret_bullet :: (position: Vector2)
+{
+    b: Bullet;
+
+    b.pos = position;
+    b.radius = 10;
+    b.birth = GetTime();
+    b.team = Team.Enemy;
+    b.damage = 1;
 
     array_add(*bullet_instances, b);
 }
@@ -45,8 +60,6 @@ simulate_bullets :: ()
 
 physics_bullets :: ()
 {
-    BULLET_DMG :: 75; // @TODO add to Bullet structure
-
     for *bullet :bullet_instances
     {
         end_bullet: bool;
@@ -57,7 +70,7 @@ physics_bullets :: ()
             {
                 if overlapping_cirles(bullet.pos, bullet.radius, et.pos, et.radius)
                 {
-                    et.health -= BULLET_DMG;
+                    et.health -= bullet.damage;
                     end_bullet = true;
 
                     if et.health <= 0
@@ -65,6 +78,20 @@ physics_bullets :: ()
                         remove; // remove et
                     }
                     break;
+                }
+            }
+        }
+
+        if bullet.team == Team.Enemy
+        {
+            if overlapping_cirles(bullet.pos, bullet.radius, player.pos, player.radius)
+            {
+                player.health -= bullet.damage;
+                end_bullet = true;
+
+                if player.health <= 0
+                {
+                    print("Player Died\n"); // @TODO
                 }
             }
         }
@@ -95,7 +122,15 @@ draw_bullets :: ()
 
     for *bullet :bullet_instances
     {
-        bullet.pos.y -= speed;
+        if bullet.team == Team.Player
+        {
+            bullet.pos.y -= speed;
+        }
+        else
+        {
+            bullet.pos.y += speed;
+        }
+
 
         frame_count := bullet_frames.count;
         bullet_time := time - bullet.birth;

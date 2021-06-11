@@ -4,6 +4,8 @@ EnemyTurret :: struct
     pos: Vector2;
     radius: float;
     health: int;
+    last_shot_time: float64;
+    rate_of_fire: float64; 
 }
 
 init_enemy_turret :: ()
@@ -18,6 +20,8 @@ spawn_enemy_turret :: (position: Vector2)
     et.pos = position;
     et.radius = 32;
     et.health = 200;
+    et.last_shot_time = GetTime();
+    et.rate_of_fire = 1.5;
 
     array_add(*enemy_turret_instances, et);
 }
@@ -33,6 +37,7 @@ simulate_enemy_turrets :: ()
         texture_offset.y = -(enemy_turret_texture.height * 0.5 * scale);
     }
 
+    // draw turrets
     for *et :enemy_turret_instances
     {
         pos: Vector2;
@@ -42,6 +47,19 @@ simulate_enemy_turrets :: ()
 
         // DEBUG
         DrawCircleSectorLines(et.pos, et.radius, 0, 360, 32, VIOLET);
+    }
+
+    // Shoot at player
+    time: float64 = GetTime();
+    for *et :enemy_turret_instances
+    {
+        time_since_last_shot :float64 = time - et.last_shot_time;
+
+        if time_since_last_shot >= et.rate_of_fire
+        {
+            spawn_enemey_turret_bullet(et.pos);
+            et.last_shot_time = time;
+        }
     }
 }
 

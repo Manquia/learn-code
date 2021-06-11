@@ -68,7 +68,7 @@ main :: ()
         simulate_enemy_turrets();
 
 
-        test_cirle_to_circle();
+        // test_cirle_to_circle();
     }
 }
 
