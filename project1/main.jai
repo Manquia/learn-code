@@ -22,10 +22,10 @@ Math :: #import "Math";
 
 // elements:
 //   player ship
-//     controller/input, hp, lives, art/sprite/texture, size, dodge/barrel roll?, 
+//     controller/input (DONE), hp (DONE), lives, art/sprite/texture(DONE), size (DONE), dodge/barrel roll?, 
 //     weapons
-//       Primary Fire
-//         Rate/cooldown, damage, size, speed
+//       Primary Fire 
+//         Rate/cooldown, damage (DONE), size (DONE), speed (DONE)
 //       Secondary Fire 
 //         Rate/cooldown, damage, size, speed
 //     movement

@@ -47,7 +47,7 @@ spawn_enemey_turret_bullet :: (position: Vector2)
     b.radius = 10;
     b.birth = GetTime();
     b.team = Team.Enemy;
-    b.damage = 1;
+    b.damage = 69;
 
     array_add(*bullet_instances, b);
 }
@@ -86,13 +86,8 @@ physics_bullets :: ()
         {
             if overlapping_cirles(bullet.pos, bullet.radius, player.pos, player.radius)
             {
-                player.health -= bullet.damage;
+                damage_player(bullet.damage);
                 end_bullet = true;
-
-                if player.health <= 0
-                {
-                    print("Player Died\n"); // @TODO
-                }
             }
         }
 
