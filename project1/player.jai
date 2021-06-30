@@ -44,13 +44,16 @@ simulate_player :: ()
 
         if is_powerup_active
         {
-            spawn_player_bullet(player.pos);
-            spawn_player_bullet(player.pos + Vector2.{-10, +10}); // bot left
-            spawn_player_bullet(player.pos + Vector2.{+10, +10}); // bot right
+            BULLET_VELOCITY :: Vector2.{ 0, -550};
+
+            spawn_player_bullet(player.pos,                      BULLET_VELOCITY);
+            spawn_player_bullet(player.pos + Vector2.{-10, +10}, BULLET_VELOCITY); // bot left
+            spawn_player_bullet(player.pos + Vector2.{+10, +10}, BULLET_VELOCITY); // bot right
         }
         else
         {
-            spawn_player_bullet(player.pos);
+            BULLET_VELOCITY :: Vector2.{ 0, -250};
+            spawn_player_bullet(player.pos, BULLET_VELOCITY);
         }
 
 

@@ -45,11 +45,14 @@ main :: ()
     InitWindow(800, 600, "window");
     defer CloseWindow();
 
+    InitAudioDevice();
+    defer CloseAudioDevice();
+
     SetTargetFPS(60);
     init_bullets();
     init_player();
     init_enemy_turret();
-
+    
     // spawn 2 for testing
     spawn_enemy_turret(Vector2.{200, 100});
     spawn_enemy_turret(Vector2.{300, 100});
@@ -57,6 +60,12 @@ main :: ()
 
     while !WindowShouldClose()     // Detect window close button or ESC key
     {
+        if IsKeyPressed(.KEY_SPACE)
+        {
+            print("Playing Sound\n");
+            PlaySound(bullet_fire_sound);
+        }
+
         BeginDrawing();
         defer EndDrawing();
 
@@ -66,9 +75,6 @@ main :: ()
         simulate_bullets();
         simulate_player();
         simulate_enemy_turrets();
-
-
-        // test_cirle_to_circle();
     }
 }
 

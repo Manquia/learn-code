@@ -45,6 +45,17 @@ simulate_enemy_turrets :: ()
         pos.y = et.pos.y + texture_offset.y;
         DrawTextureEx(enemy_turret_texture, pos, 0, scale, WHITE);
 
+        
+        vecToPlayer : Vector2 = player.pos - et.pos;
+        vecToPlayerNorm : Vector2 = Vector2Normalize(vecToPlayer);
+
+        RAD_TO_DEG :: 180.0/ Math.PI;
+        DEG_TO_RAD :: Math.PI / 180.0;
+        angle_radians : float = Math.atan2(vecToPlayerNorm.y, vecToPlayerNorm.x);
+        angle_degrees := angle_radians * RAD_TO_DEG; 
+
+        // @TODO @Homework make the enemy turret face the player while it's shooting!
+
         // DEBUG
         DrawCircleSectorLines(et.pos, et.radius, 0, 360, 32, VIOLET);
     }
@@ -57,7 +68,11 @@ simulate_enemy_turrets :: ()
 
         if time_since_last_shot >= et.rate_of_fire
         {
-            spawn_enemey_turret_bullet(et.pos);
+            vecToPlayer : Vector2 = player.pos - et.pos;
+            vecToPlayerNorm : Vector2 = Vector2Normalize(vecToPlayer);
+            bullet_velocity : Vector2 = vecToPlayerNorm * 280.0;
+
+            spawn_enemey_turret_bullet(et.pos, bullet_velocity);
             et.last_shot_time = time;
         }
     }

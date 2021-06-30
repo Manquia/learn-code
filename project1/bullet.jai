@@ -5,6 +5,10 @@ init_bullets :: ()
     array_add(*bullet_frames, LoadTexture("resources/bullet_frame_1.png"));
     array_add(*bullet_frames, LoadTexture("resources/bullet_frame_2.png"));
     array_add(*bullet_frames, LoadTexture("resources/bullet_frame_3.png"));
+
+    bullet_fire_wave  = LoadWave("resources/sound.wav");
+    bullet_fire_sound = LoadSoundFromWave(bullet_fire_wave);
+    //bullet_fire_sound = LoadSoundFromWave(bullet_fire_wave);
 }
 
 Team :: enum
@@ -15,45 +19,56 @@ Team :: enum
 
 Bullet :: struct
 {
-    pos:    Vector2;
-    radius: float32; // @TODO
-    birth:  float64;
-    team:   Team;
-    damage: int;  // The ammount of damage done when colliding with a different team.
+    pos:      Vector2;
+    velocity: Vector2;
 
+    radius:   float32;
+    birth:    float64;
+    team:     Team;
+    damage:   int;      // The ammount of damage done when colliding with a different team.
 
     LIFESPAN :float64: 10.0;
 }
 bullet_instances: [..]Bullet;
+bullet_fire_sound: Sound;
+bullet_fire_wave: Wave;
 
-spawn_player_bullet :: (position: Vector2)
+spawn_player_bullet :: (position: Vector2, initial_velocity: Vector2)
 {
     b: Bullet;
 
     b.pos = position;
+    b.velocity = initial_velocity;
     b.radius = 10;
     b.birth = GetTime();
     b.team = Team.Player;
     b.damage = 75;
 
+    // PlaySound(bullet_fire_sound);
+
     array_add(*bullet_instances, b);
 }
 
-spawn_enemey_turret_bullet :: (position: Vector2)
+spawn_enemey_turret_bullet :: (position: Vector2, initial_velocity: Vector2)
 {
     b: Bullet;
 
     b.pos = position;
+    b.velocity = initial_velocity;
     b.radius = 10;
     b.birth = GetTime();
     b.team = Team.Enemy;
     b.damage = 69;
+
+    // PlaySound(bullet_fire_sound);
 
     array_add(*bullet_instances, b);
 }
 
 simulate_bullets :: ()
 {
+    //print("IsSoundPlaying: %\n", IsSoundPlaying(bullet_fire_sound));
+
     physics_bullets();
     draw_bullets();
 }
@@ -117,15 +132,8 @@ draw_bullets :: ()
 
     for *bullet :bullet_instances
     {
-        if bullet.team == Team.Player
-        {
-            bullet.pos.y -= speed;
-        }
-        else
-        {
-            bullet.pos.y += speed;
-        }
-
+        // Move bullet by it's velocity
+        bullet.pos = bullet.pos + bullet.velocity * dt;
 
         frame_count := bullet_frames.count;
         bullet_time := time - bullet.birth;
