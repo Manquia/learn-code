@@ -9,6 +9,7 @@ Math :: #import "Math";
 #load "player.jai";
 #load "bullet.jai";
 #load "enemy_turret.jai";
+#load "utils.jai";
 #load "sandbox.jai";
 
 

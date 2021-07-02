@@ -40,24 +40,23 @@ simulate_enemy_turrets :: ()
     // draw turrets
     for *et :enemy_turret_instances
     {
-        pos: Vector2;
-        pos.x = et.pos.x + texture_offset.x;
-        pos.y = et.pos.y + texture_offset.y;
-        DrawTextureEx(enemy_turret_texture, pos, 0, scale, WHITE);
-
-        
         vecToPlayer : Vector2 = player.pos - et.pos;
         vecToPlayerNorm : Vector2 = Vector2Normalize(vecToPlayer);
 
-        RAD_TO_DEG :: 180.0/ Math.PI;
+        RAD_TO_DEG :: 180.0 / Math.PI;
         DEG_TO_RAD :: Math.PI / 180.0;
-        angle_radians : float = Math.atan2(vecToPlayerNorm.y, vecToPlayerNorm.x);
-        angle_degrees := angle_radians * RAD_TO_DEG; 
+        angle_radians : float = Math.atan2(vecToPlayerNorm.y, vecToPlayerNorm.x) - (Math.PI / 2.0);
+        angle_degrees : float = angle_radians * RAD_TO_DEG;
+        
+        offset_rotation := calculate_rotated_offset(texture_offset, angle_radians);
 
-        // @TODO @Homework make the enemy turret face the player while it's shooting!
+        pos: Vector2;
+        pos.x = et.pos.x + offset_rotation.x;
+        pos.y = et.pos.y + offset_rotation.y;
+        DrawTextureEx(enemy_turret_texture, pos, angle_degrees, scale, WHITE);
 
         // DEBUG
-        DrawCircleSectorLines(et.pos, et.radius, 0, 360, 32, VIOLET);
+        // DrawCircleSectorLines(et.pos, et.radius, 0, 360, 32, VIOLET);
     }
 
     // Shoot at player
