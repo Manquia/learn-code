@@ -2,7 +2,7 @@
 
 
 #import "raylib-jai";
-#load "raylib-jai/raymath.jai";
+#load "raylib/raymath.jai";
 Math :: #import "Math";
 
 #load "background.jai";
