@@ -51,12 +51,13 @@ simulate_enemy_turrets :: ()
         offset_rotation := calculate_rotated_offset(texture_offset, angle_radians);
 
         pos: Vector2;
-        pos.x = et.pos.x + offset_rotation.x;
-        pos.y = et.pos.y + offset_rotation.y;
+        pos.x = et.pos.x; //  + offset_rotation.x;
+        pos.y = et.pos.y; //  + offset_rotation.y;
+        angle_degrees = 0;
         DrawTextureEx(enemy_turret_texture, pos, angle_degrees, scale, WHITE);
 
         // DEBUG
-        // DrawCircleSectorLines(et.pos, et.radius, 0, 360, 32, VIOLET);
+        DrawCircleSectorLines(et.pos, et.radius, 1, 360, 64, VIOLET);
     }
 
     // Shoot at player
