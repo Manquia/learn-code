@@ -43,7 +43,7 @@ Math :: #import "Math";
 
 main :: ()
 {
-    InitWindow(800, 600, "window");
+    InitWindow(800, 600, "Space Invaders");
     defer CloseWindow();
 
     InitAudioDevice();

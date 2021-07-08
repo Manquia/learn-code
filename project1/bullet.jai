@@ -6,8 +6,10 @@ init_bullets :: ()
     array_add(*bullet_frames, LoadTexture("resources/bullet_frame_2.png"));
     array_add(*bullet_frames, LoadTexture("resources/bullet_frame_3.png"));
 
+    //bullet_fire_sound = LoadSound("resources/target.ogg");
     bullet_fire_wave  = LoadWave("resources/sound.wav");
     bullet_fire_sound = LoadSoundFromWave(bullet_fire_wave);
+    
     //bullet_fire_sound = LoadSoundFromWave(bullet_fire_wave);
 }
 

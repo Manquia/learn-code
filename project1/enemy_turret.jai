@@ -51,9 +51,8 @@ simulate_enemy_turrets :: ()
         offset_rotation := calculate_rotated_offset(texture_offset, angle_radians);
 
         pos: Vector2;
-        pos.x = et.pos.x; //  + offset_rotation.x;
-        pos.y = et.pos.y; //  + offset_rotation.y;
-        angle_degrees = 0;
+        pos.x = et.pos.x + offset_rotation.x;
+        pos.y = et.pos.y + offset_rotation.y;
         DrawTextureEx(enemy_turret_texture, pos, angle_degrees, scale, WHITE);
 
         // DEBUG
@@ -77,8 +76,6 @@ simulate_enemy_turrets :: ()
         }
     }
 }
-
-
 
 enemy_turret_texture: Texture2D;
 enemy_turret_instances: [..]EnemyTurret;
