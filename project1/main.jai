@@ -10,6 +10,7 @@ Math :: #import "Math";
 #load "bullet.jai";
 #load "enemy_turret.jai";
 #load "utils.jai";
+#load "game.jai";
 #load "sandbox.jai";
 
 
@@ -23,23 +24,41 @@ Math :: #import "Math";
 
 // elements:
 //   player ship
-//     controller/input (DONE), hp (DONE), lives, art/sprite/texture(DONE), size (DONE), dodge/barrel roll?, 
+//     controller/input (DONE), hp (DONE), lives(skip), art/sprite/texture(DONE), size (DONE), dodge/barrel roll? (@MAYBE) 
 //     weapons
-//       Primary Fire 
+//       Primary Fire (DONE)
 //         Rate/cooldown, damage (DONE), size (DONE), speed (DONE)
-//       Secondary Fire 
-//         Rate/cooldown, damage, size, speed
+//       Secondary Fire (@Maybe)
+//         Rate/cooldown (DONE), damage(DONE), size(DONE), speed(DONE)
 //     movement
-//       speed, velocity, 
-//   enemy ships (2)
-//     ai/behavior, art/texture, hp, weapons
-//   elite ship (1)
+//       speed(DONE) 
+//   enemy ships (1)
+//     ai/behavior, art/texture(DONE), hp(DONE), weapons (DONE)
+//   elite ship (1) (skip)
 //     ai/behavior, art/texture, hp, weapons
 //   background (done)
-//     art/texture,                    LATER: star particles?, paralaxed background?
+//     art/texture (done)
 //   
+//
 
+//
+// dodge/barrel roll? (@MAYBE) 
+// Secondary Fire (@Maybe)
+//
+// Win condition, What does this look like?
+//  Objective: Kill 100 enemies
+//  Rule: If there are less than 5 enemies, spawn an enemy in a random location near the top of the screen.
+//
+// Loose Condition, what does this look like?
+//  Rule: If player hp goes below 1, then play explosion.
+//  
 
+//
+// Start Screen (Game State)
+// Loose Screen (Game State)
+// Win Screen (Game State)
+// Gameplay (Current game)
+//
 
 main :: ()
 {
@@ -50,23 +69,20 @@ main :: ()
     defer CloseAudioDevice();
 
     SetTargetFPS(60);
+    init_game_state();
     init_bullets();
     init_player();
     init_enemy_turret();
+
+    change_game_state(GameState.Start);
     
     // spawn 2 for testing
-    spawn_enemy_turret(Vector2.{200, 100});
-    spawn_enemy_turret(Vector2.{300, 100});
-    spawn_enemy_turret(Vector2.{400, 100});
+    // spawn_enemy_turret(Vector2.{200, 100});
+    // spawn_enemy_turret(Vector2.{300, 100});
+    // spawn_enemy_turret(Vector2.{400, 100});
 
     while !WindowShouldClose()     // Detect window close button or ESC key
     {
-        if IsKeyPressed(.KEY_SPACE)
-        {
-            print("Playing Sound\n");
-            PlaySound(bullet_fire_sound);
-        }
-
         BeginDrawing();
         defer EndDrawing();
 
@@ -76,6 +92,7 @@ main :: ()
         simulate_bullets();
         simulate_player();
         simulate_enemy_turrets();
+        simulate_game_state();
     }
 }
 

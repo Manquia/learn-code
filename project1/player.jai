@@ -117,6 +117,7 @@ damage_player :: (ammount: int)
     if player.health <= 0
     {
         player.is_alive = false;
+        change_game_state(GameState.Loose);
     }
 }
 
@@ -147,6 +148,5 @@ Player :: struct
     rate_of_fire: float64; 
 
     is_alive: bool;
-
 }
 player: Player;
