@@ -2,6 +2,13 @@
 
 init_player :: ()
 {
+    reset_player();
+
+    player.texture = LoadTexture("resources/player_texture.png");
+}
+
+reset_player :: ()
+{
     player.is_alive = true;
 
     width  := GetScreenWidth();
@@ -15,8 +22,6 @@ init_player :: ()
 
     player.last_shot_time = GetTime();
     player.rate_of_fire   = 0.28;
-
-    player.texture = LoadTexture("resources/player_texture.png");
 }
 
 simulate_player :: ()
@@ -45,7 +50,7 @@ simulate_player :: ()
 
         if is_powerup_active
         {
-            BULLET_VELOCITY :: Vector2.{ 0, -550};
+            BULLET_VELOCITY :: Vector2.{ 0, -750};
 
             spawn_player_bullet(player.pos,                      BULLET_VELOCITY);
             spawn_player_bullet(player.pos + Vector2.{-10, +10}, BULLET_VELOCITY); // bot left

@@ -83,6 +83,8 @@ main :: ()
 
     while !WindowShouldClose()     // Detect window close button or ESC key
     {
+        reset_temporary_storage();
+        
         BeginDrawing();
         defer EndDrawing();
 
