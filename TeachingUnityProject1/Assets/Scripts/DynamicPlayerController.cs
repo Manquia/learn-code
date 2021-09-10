@@ -8,6 +8,44 @@ using UnityEngine;
 // Homework: Code Signal Arcade Intro 4,5,6,8
 //
 
+/*
+Balloon game
+- How do we collet them? Are they inflated?
+
+Goal: 
+Collect as much gold and reach the top floor in
+this collectors dream platformer.
+
+Move Systems: Character progression (ie. Unlocking movement abilities)
+- Basics
+-- A + D: Left and right movement. 
+-- Space: Jump
+-- Shift: Sprint
+- Balloon Specific
+-- Having Balloons grants slow fall (changes to riseing power, eventually)
+Advanced: (Maybe)
+- Grappling hooks
+-- Fishing pole? (Fix soft-lock with being stuck on the ceiling)
+- Double Jump
+- Dash + Wave Dash
+
+Enemies
+- Dart trap (hole in the wall)
+- Spikes
+- Acid droplets
+- Pressure plates
+-- Trap door?
+-- Triggers Traps?
+-- Affected by your weight?
+
+Items:
+- Balloons
+-- Can be popped
+- Gold Bars
+-- Heavy!
+-- Points!
+*/
+
 public class DynamicPlayerController : MonoBehaviour
 {
     public float horizontalAcceleration = 20.0f;
