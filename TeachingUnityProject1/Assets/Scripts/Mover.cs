@@ -50,4 +50,25 @@ public class Mover : MonoBehaviour
         }
     }
 
+
+    private void OnDrawGizmos()
+    {
+        // When Unity editor view is open
+        Color drawColor = Color.blue;
+        DrawMovementLine(drawColor);
+    }
+    private void OnDrawGizmosSelected()
+    {
+        // When object is selected in the editor view
+        Color drawColor = Color.white;
+        DrawMovementLine(drawColor);
+    }
+    void DrawMovementLine(Color drawColor)
+    {
+        var worldPos = transform.position;
+
+        Gizmos.color = drawColor;
+        Gizmos.DrawLine(worldPos + startPosition, worldPos + endPosittion);
+    }
+
 }
