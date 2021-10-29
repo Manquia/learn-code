@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController singleton;
     public float speed = 5.0f;
-    
-    // Start is called before the first frame update
-    void Start()
+
+    void OnEnable()
     {
+        singleton = this;
     }
+    void OnDisable()
+    {
+        singleton = null;
+    }
+
 
     // Update is called once per frame
     void Update()

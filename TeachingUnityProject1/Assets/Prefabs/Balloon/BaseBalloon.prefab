@@ -172,3 +172,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee93375a1bee9d2438d4467a4875834a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ropeSprite: {fileID: 21300000, guid: 0813066eda0b40044948ab0449c3542c, type: 3}

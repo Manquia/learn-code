@@ -48,6 +48,16 @@ Items:
 
 public class DynamicPlayerController : MonoBehaviour
 {
+    public static DynamicPlayerController g_singleton;
+    void OnEnable()
+    {
+        g_singleton = this;
+    }
+    void OnDisable()
+    {
+        g_singleton = null;
+    }
+
     public float horizontalAcceleration = 20.0f;
     public float jumpAcceleration       = 20.0f;
     public float maxHorizontalMovementVelocity = 7.0f;
