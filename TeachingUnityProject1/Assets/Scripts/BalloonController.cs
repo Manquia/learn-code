@@ -32,8 +32,8 @@ public class BalloonController : MonoBehaviour
     private void Update()
     {
         SpringJoint2D spring = GetComponent<SpringJoint2D>();
-
-        Vector3 startPoint = transform.position; // @TODO This should use the anchor point of the spring. @Later
+        
+        Vector3 startPoint = transform.TransformPoint(spring.anchor);
         Vector3 endPoint;
 
         if (spring.connectedBody == null)
@@ -43,7 +43,7 @@ public class BalloonController : MonoBehaviour
         else // assume that the connectedBody is the player
         {
             var pc = DynamicPlayerController.g_singleton;
-            endPoint = pc.transform.position;
+            endPoint = pc.transform.TransformPoint(spring.connectedAnchor);
         }
 
         // Setup position
@@ -89,6 +89,6 @@ public class BalloonController : MonoBehaviour
 
         Rigidbody2D playerRigidBody = player.GetComponent<Rigidbody2D>();
         balloonSpringJoint.connectedBody = playerRigidBody;
-        balloonSpringJoint.connectedAnchor = Vector2.up * 0.4f;
+        balloonSpringJoint.connectedAnchor = Vector2.up * 0.4f; // 0, 0.4
     }
 }

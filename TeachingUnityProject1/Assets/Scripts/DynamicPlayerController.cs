@@ -71,6 +71,7 @@ public class DynamicPlayerController : MonoBehaviour
 
 
 
+
     // Update is called once per frame
     void Update()
     {
@@ -208,4 +209,32 @@ public class DynamicPlayerController : MonoBehaviour
             rigid.velocity = oldVelocity + velocityDelta;
         }
     }
+
+
+
+
+    internal int coinCount = 0;
+    public void PickupCoin(CoinController coin)
+    {
+        // get player's RigidBody2D
+        var rigidBody = GetComponent<Rigidbody2D>();
+
+        // Increase mass
+        rigidBody.mass += coin.weight;  
+        // Add the coin's value
+        coinCount += coin.value;
+        // Remove coin from the scene
+        Destroy(coin.gameObject);
+
+        //       Homework
+        // In DynamicPlayerController.PickupCoin() you
+        // need to add a sound effect. You will need to
+        // Google this stuff for examples on how in Unity.
+        // Play a OneShot on an audio source component
+        // that is attached to the player with a 
+        // AudioClip proved by the CoinController
+        // reference in this functdion.
+        // 
+    }
+
 }
