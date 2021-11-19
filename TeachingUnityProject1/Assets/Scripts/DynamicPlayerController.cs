@@ -152,10 +152,14 @@ public class DynamicPlayerController : MonoBehaviour
 
         if (hit.collider != null)
         {
+            this.transform.SetParent(hit.collider.transform, true);
             return true;
         }
-
-        return false;
+        else
+        {
+            this.transform.SetParent(null, true);
+            return false;
+        }
     }
 
     private RaycastHit2D PlayerRaycast(Vector2 origin, Vector2 direction, float distance)
